@@ -143,6 +143,10 @@ function ClickFeatureProperty(propertyId) {
     
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
+        // Get experiment variant for conversion tracking
+        const experimentVariant = window.experiment ? 
+            (window.experiment.variant('test-feature-experiment').value || 'control') : 'control';
+        
         amplitude.track('Clicked Feature Property', {
             propertyId: propertyId,
             propertyTitle: property.title,
@@ -309,6 +313,10 @@ function contactAboutProperty(propertyTitle, propertyId) {
     
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
+        // Get experiment variant for conversion tracking
+        const experimentVariant = window.experiment ? 
+            (window.experiment.variant('test-feature-experiment').value || 'control') : 'control';
+        
         amplitude.track('Clicked Contact Agent', {
             propertyId: propertyId,
             propertyTitle: property.title,
@@ -335,6 +343,10 @@ function scheduleViewing(propertyTitle, propertyId) {
     
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
+        // Get experiment variant for conversion tracking
+        const experimentVariant = window.experiment ? 
+            (window.experiment.variant('test-feature-experiment').value || 'control') : 'control';
+        
         amplitude.track('Clicked Schedule Viewing', {
             propertyId: propertyId,
             propertyTitle: property.title,
@@ -353,6 +365,8 @@ function scheduleViewing(propertyTitle, propertyId) {
     }
     closePropertyModal();
 }
+
+
 
 // DOM Content Loaded Event Listeners
 document.addEventListener('DOMContentLoaded', function() {

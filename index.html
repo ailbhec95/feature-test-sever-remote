@@ -8,8 +8,58 @@
     <title>PropertySale - Find Your Dream Home</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.amplitude.com/script/a3f7a8d1c910f8fabc60dd7e947438f1.js"></script>
-    <script>window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 })); window.amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1', { "fetchRemoteConfig": true, "autocapture": true });</script>
-
+    <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
+    <script>
+        // Initialize Amplitude Analytics first
+        window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 })); 
+        window.amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1', { "fetchRemoteConfig": true, "autocapture": true });
+        
+        // Initialize Amplitude Experiment after Analytics
+        window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
+        
+        // Hero Section Experiment Logic
+        async function setupHeroExperiment() {
+            try {
+                // Fetch experiment variants
+                const user = { user_id: amplitude.getUserId() || 'anonymous_' + Date.now() };
+                await window.experiment.fetch(user);
+                
+                // Get the variant for the hero experiment
+                const variant = window.experiment.variant('test-feature-experiment');
+                
+                // Track exposure
+                amplitude.track('Experiment Exposure', {
+                    experiment_name: 'test-feature-experiment',
+                    variant_name: variant.value || 'control'
+                });
+                
+                // Apply treatment (hide hero section if treatment variant)
+                if (variant.value === 'no-landing-panel-treatment') {
+                    const heroSection = document.getElementById('home');
+                    if (heroSection) {
+                        heroSection.classList.add('hidden-by-experiment');
+                        heroSection.style.display = 'none';
+                    }
+                    
+                    // Update navigation to skip to properties since hero is hidden
+                    const homeLink = document.querySelector('a[href="#home"]');
+                    if (homeLink) {
+                        homeLink.href = '#properties';
+                        homeLink.textContent = 'Properties'; // Update text to be more clear
+                    }
+                }
+                
+                console.log('Hero experiment initialized:', variant.value || 'control');
+                
+            } catch (error) {
+                console.error('Error setting up hero experiment:', error);
+                // Default to control (show hero) on error
+            }
+        }
+        
+        // Run experiment setup when page loads
+        document.addEventListener('DOMContentLoaded', setupHeroExperiment);
+    </script>
 </head>
 
 <body>
