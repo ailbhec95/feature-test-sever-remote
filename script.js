@@ -146,20 +146,30 @@ function getUserInfo() {
 function ClickFeatureProperty(propertyId) {
     const property = propertyData[propertyId];
     
-        // (3) Lookup a flag's variant.
-    const variant = window.experiment.variant('variant');
-    if (variant.value === 'on') {
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach(button => {
-            button.style.backgroundColor = '#e74c3c'; // Red color
-            button.style.borderColor = '#c0392b';
-        })// Flag is on
+    // (3) Lookup a flag's variant - SDK automatically tracks exposure
+    if (window.experiment) {
+        console.log('Checking experiment variant for flag key: "variant"');
+        const variant = window.experiment.variant('variant');
+        console.log('Experiment variant retrieved:', variant);
+        console.log('All available variants:', window.experiment.all());
+        
+        if (variant.value === 'on') {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.style.backgroundColor = '#e74c3c'; // Red color
+                button.style.borderColor = '#c0392b';
+            })// Flag is on
+            console.log('Applied red button styling (variant: on)');
+        } else {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.style.backgroundColor = '#3498db'; // Original blue
+                button.style.borderColor = '#2980b9';
+            })// Flag is off
+            console.log('Applied blue button styling (variant: off/control)');
+        }
     } else {
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach(button => {
-            button.style.backgroundColor = '#3498db'; // Original blue
-            button.style.borderColor = '#2980b9';
-        })// Flag is off
+        console.error('Experiment not available');
     }
     
     // Send custom event to Amplitude using Browser SDK 2

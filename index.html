@@ -12,9 +12,14 @@
     <script>
         // Initialize Amplitude Experiment after Analytics
         window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
+        console.log('Amplitude Experiment initialized:', window.experiment);
+        
         // Fetch variants on page load
-        window.experiment.fetch().catch(function(error) {
-            console.log('Failed to fetch experiment variants:', error);
+        window.experiment.fetch().then(function() {
+            console.log('Experiment variants fetched successfully');
+            console.log('Available variants:', window.experiment.all());
+        }).catch(function(error) {
+            console.error('Failed to fetch experiment variants:', error);
         });
     </script>
 </head>
