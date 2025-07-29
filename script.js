@@ -68,6 +68,15 @@ const propertyData = {
         features: ["City Views", "Home Office", "Wine Cellar", "2-Car Garage", "Premium Finishes", "Large Lot"]
     }
 };
+import { Experiment } from '@amplitude/experiment-js-client';
+ 
+// (1) Initialize the experiment client with Amplitude Analytics.
+const experiment = Experiment.initializeWithAmplitudeAnalytics(
+    client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0
+);
+
+// (2) Fetch variants and await the promise result.
+await experiment.fetch();
 
 // Login Management Functions (GLOBAL SCOPE)
 function openLoginModal() {
@@ -141,6 +150,21 @@ function getUserInfo() {
 function ClickFeatureProperty(propertyId) {
     const property = propertyData[propertyId];
     
+        // (3) Lookup a flag's variant.
+    const variant = experiment.variant('variant');
+    if (variant.value === 'on') {
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.style.backgroundColor = '#e74c3c'; // Red color
+            button.style.borderColor = '#c0392b';
+        })// Flag is on
+    } else {
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.style.backgroundColor = '#3498db'; // Original blue
+            button.style.borderColor = '#2980b9';
+        })// Flag is off
+    }
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
         // Get experiment variant for conversion tracking
@@ -313,9 +337,6 @@ function contactAboutProperty(propertyTitle, propertyId) {
     
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
-        // Get experiment variant for conversion tracking
-        const experimentVariant = window.experiment ? 
-            (window.experiment.variant('test-feature-experiment').value || 'control') : 'control';
         
         amplitude.track('Clicked Contact Agent', {
             propertyId: propertyId,
