@@ -68,10 +68,15 @@ const propertyData = {
         features: ["City Views", "Home Office", "Wine Cellar", "2-Car Garage", "Premium Finishes", "Large Lot"]
     }
 };
-// Remove the import statement and duplicate initialization
-// The experiment is already initialized in the HTML file as window.experiment
+import { Experiment } from '@amplitude/experiment-js-client';
+ 
+// (1) Initialize the experiment client with Amplitude Analytics.
+const experiment = Experiment.initializeWithAmplitudeAnalytics(
+    client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0
+);
 
-// Login Management Functions (GLOBAL SCOPE)
+// (2) Fetch variants and await the promise result.
+await experiment.fetch();
 function openLoginModal() {
     document.getElementById('loginModal').style.display = 'block';
 }
