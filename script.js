@@ -188,20 +188,20 @@ function ClickFeatureProperty(propertyId) {
         console.log('Variant payload:', variant.payload);
         
         // Apply styling based on variant
-        if (variant.value === 'on') {
+        if (variant.value === 'variant') {
             const buttons = document.querySelectorAll('.btn');
             buttons.forEach(button => {
                 button.style.backgroundColor = '#e74c3c'; // Red color
                 button.style.borderColor = '#c0392b';
             });
-            console.log('Applied red button styling (variant: on)');
+            console.log('Applied red button styling (variant: variant)');
         } else {
             const buttons = document.querySelectorAll('.btn');
             buttons.forEach(button => {
                 button.style.backgroundColor = '#3498db'; // Original blue
                 button.style.borderColor = '#2980b9';
             });
-            console.log('Applied blue button styling (variant: off/control)');
+            console.log('Applied blue button styling (variant: control/other)');
         }
     } else {
         console.error('Experiment not available');
