@@ -68,15 +68,8 @@ const propertyData = {
         features: ["City Views", "Home Office", "Wine Cellar", "2-Car Garage", "Premium Finishes", "Large Lot"]
     }
 };
-import { Experiment } from '@amplitude/experiment-js-client';
- 
-// (1) Initialize the experiment client with Amplitude Analytics.
-const experiment = Experiment.initializeWithAmplitudeAnalytics(
-    client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0
-);
-
-// (2) Fetch variants and await the promise result.
-await experiment.fetch();
+// Remove the import statement and duplicate initialization
+// The experiment is already initialized in the HTML file as window.experiment
 
 // Login Management Functions (GLOBAL SCOPE)
 function openLoginModal() {
@@ -132,6 +125,11 @@ function login(name, userId, password) {
     return true;
 }
 
+function getCurrentUser() {
+    const userSession = localStorage.getItem('userSession');
+    return userSession ? JSON.parse(userSession) : null;
+}
+
 function logout() {
     const user = getCurrentUser();
     
@@ -151,7 +149,7 @@ function ClickFeatureProperty(propertyId) {
     const property = propertyData[propertyId];
     
         // (3) Lookup a flag's variant.
-    const variant = experiment.variant('variant');
+    const variant = window.experiment.variant('variant');
     if (variant.value === 'on') {
         const buttons = document.querySelectorAll('.btn');
         buttons.forEach(button => {
@@ -165,6 +163,7 @@ function ClickFeatureProperty(propertyId) {
             button.style.borderColor = '#2980b9';
         })// Flag is off
     }
+    
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
         
