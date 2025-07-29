@@ -142,29 +142,6 @@ function getUserInfo() {
     return getCurrentUser();
 }
 
-// Test function to manually check Amplitude tracking
-function testAmplitudeTracking() {
-    console.log('=== MANUAL AMPLITUDE TEST ===');
-    if (typeof amplitude !== 'undefined') {
-        // Send a test event
-        amplitude.track('Manual Test Event', {
-            test: true,
-            timestamp: new Date().toISOString()
-        });
-        console.log('✅ Manual test event sent to Amplitude');
-        
-        // Try to manually send an exposure event
-        amplitude.track('$exposure', {
-            flag_key: 'test-feature-experiment',
-            variant: 'test'
-        });
-        console.log('✅ Manual $exposure event sent to Amplitude');
-    } else {
-        console.log('❌ Amplitude Analytics not available');
-    }
-    console.log('=== END MANUAL AMPLITUDE TEST ===');
-}
-
 // Custom Amplitude Event Function
 function ClickFeatureProperty(propertyId) {
     const property = propertyData[propertyId];
@@ -231,9 +208,6 @@ function ClickFeatureProperty(propertyId) {
     }
     
     console.log('=== EXPERIMENT DEBUG END ===');
-    
-    // Test manual Amplitude tracking
-    testAmplitudeTracking();
     
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
