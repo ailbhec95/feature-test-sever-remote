@@ -6,9 +6,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertySale - Find Your Dream Home</title>
-    <link rel="stylesheet" href="style.css?v=4&t=1704649300">
+    <link rel="stylesheet" href="style.css?v=5&t=1704649400">
     <script src="https://cdn.amplitude.com/script/a3f7a8d1c910f8fabc60dd7e947438f1.js"></script>
     <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
+    <script>
+        // Initialize Amplitude Experiment after Analytics
+        window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
+        // Fetch variants on page load
+        window.experiment.fetch().catch(function(error) {
+            console.log('Failed to fetch experiment variants:', error);
+        });
+    </script>
 </head>
 
 <body>
@@ -263,6 +271,6 @@
         <button class="btn-secondary" onclick="logout()">Logout</button>
     </div>
 
-    <script src="script.js?v=4&t=1704649300"></script>
+    <script src="script.js?v=5&t=1704649400"></script>
 </body>
 </html> 
