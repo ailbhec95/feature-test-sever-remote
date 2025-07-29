@@ -10,17 +10,35 @@
     <script src="https://cdn.amplitude.com/script/a3f7a8d1c910f8fabc60dd7e947438f1.js"></script>
     <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
     <script>
+        // Check if Amplitude Analytics is loaded
+        console.log('=== AMPLITUDE ANALYTICS CHECK ===');
+        console.log('Amplitude Analytics available:', typeof amplitude !== 'undefined');
+        if (typeof amplitude !== 'undefined') {
+            console.log('Amplitude Analytics instance:', amplitude);
+            console.log('Amplitude Analytics getUserId():', amplitude.getUserId());
+            console.log('Amplitude Analytics getDeviceId():', amplitude.getDeviceId());
+        }
+        console.log('=== END AMPLITUDE ANALYTICS CHECK ===');
+        
         // Initialize Amplitude Experiment after Analytics
+        console.log('=== EXPERIMENT INITIALIZATION START ===');
         window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
         console.log('Amplitude Experiment initialized:', window.experiment);
+        console.log('Experiment config:', window.experiment.config);
+        console.log('Experiment integration manager:', window.experiment.integrationManager);
         
-        // Fetch variants on page load
+        // Fetch variants on page load with detailed logging
+        console.log('Starting experiment fetch...');
         window.experiment.fetch().then(function() {
-            console.log('Experiment variants fetched successfully');
-            console.log('Available variants:', window.experiment.all());
+            console.log('✅ Experiment variants fetched successfully');
+            console.log('Available variants after fetch:', window.experiment.all());
+            console.log('Experiment isRunning after fetch:', window.experiment.isRunning);
+            console.log('Cached variants:', window.experiment.variants.cache);
         }).catch(function(error) {
-            console.error('Failed to fetch experiment variants:', error);
+            console.error('❌ Failed to fetch experiment variants:', error);
         });
+        
+        console.log('=== EXPERIMENT INITIALIZATION END ===');
     </script>
 </head>
 
