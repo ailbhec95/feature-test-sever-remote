@@ -155,7 +155,7 @@ function testAmplitudeTracking() {
         
         // Try to manually send an exposure event
         amplitude.track('$exposure', {
-            flag_key: 'variant',
+            flag_key: 'test-feature-experiment',
             variant: 'test'
         });
         console.log('✅ Manual $exposure event sent to Amplitude');
@@ -204,8 +204,8 @@ function ClickFeatureProperty(propertyId) {
         console.log('Variants cache object:', window.experiment.variants);
         
         // Try to get the variant
-        console.log('Attempting to get variant for flag key: "variant"');
-        const variant = window.experiment.variant('variant');
+        console.log('Attempting to get variant for flag key: "test-feature-experiment"');
+        const variant = window.experiment.variant('test-feature-experiment');
         console.log('Variant result:', variant);
         console.log('Variant value:', variant.value);
         console.log('Variant payload:', variant.payload);
