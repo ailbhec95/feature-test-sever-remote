@@ -68,15 +68,8 @@ const propertyData = {
         features: ["City Views", "Home Office", "Wine Cellar", "2-Car Garage", "Premium Finishes", "Large Lot"]
     }
 };
-import { Experiment } from '@amplitude/experiment-js-client';
- 
-// (1) Initialize the experiment client with Amplitude Analytics.
-const experiment = Experiment.initializeWithAmplitudeAnalytics(
-    client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0
-);
 
-// (2) Fetch variants and await the promise result.
-await experiment.fetch();
+// Login Management Functions (GLOBAL SCOPE)
 function openLoginModal() {
     document.getElementById('loginModal').style.display = 'block';
 }
