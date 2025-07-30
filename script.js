@@ -144,7 +144,8 @@ function getUserInfo() {
 
 // Custom Amplitude Event Function
 function ClickFeatureProperty(propertyId) {
-    const property = propertyData[propertyId];  
+    const property = propertyData[propertyId];
+    
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
         
@@ -272,37 +273,6 @@ function clearFilters() {
 
 // Modal functions
 function openPropertyModal(propertyId) {
-
-    if (window.experiment) {
-        console.log('All cached variants:', window.experiment.all());
-        console.log('Variants cache object:', window.experiment.variants);
-        
-        // Try to get the variant
-        console.log('Attempting to get variant for flag key: "test-feature-experiment"');
-        const variant = window.experiment.variant('test-feature-experiment');
-        console.log('Variant result:', variant);
-        console.log('Variant value:', variant.value);
-        console.log('Variant payload:', variant.payload);
-        
-        // Apply styling based on variant
-        if (variant.value === 'variant') {
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.style.backgroundColor = '#e74c3c'; // Red color
-                button.style.borderColor = '#c0392b';
-            });
-            console.log('Applied red button styling (variant: variant)');
-        } else {
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.style.backgroundColor = '#3498db'; // Original blue
-                button.style.borderColor = '#2980b9';
-            });
-            console.log('Applied blue button styling (variant: control/other)');
-        }
-    } else {
-        console.error('Experiment not available');
-    }
     const property = propertyData[propertyId];
     const modal = document.getElementById('propertyModal');
     const modalContent = document.getElementById('modalContent');
@@ -332,6 +302,34 @@ function openPropertyModal(propertyId) {
     `;
     
     modal.style.display = 'block';
+    
+    // Apply experiment styling AFTER modal content is created, targeting only modal buttons
+    if (window.experiment) {
+        console.log('Applying experiment to modal buttons only');
+        console.log('Attempting to get variant for flag key: "test-feature-experiment"');
+        const variant = window.experiment.variant('test-feature-experiment');
+        console.log('Variant result:', variant);
+        console.log('Variant value:', variant.value);
+        
+        // Target only buttons within the modal
+        if (variant.value === 'variant') {
+            const modalButtons = modal.querySelectorAll('.btn');
+            modalButtons.forEach(button => {
+                button.style.backgroundColor = '#e74c3c'; // Red color
+                button.style.borderColor = '#c0392b';
+            });
+            console.log('Applied red button styling to modal buttons (variant: variant)');
+        } else {
+            const modalButtons = modal.querySelectorAll('.btn');
+            modalButtons.forEach(button => {
+                button.style.backgroundColor = '#3498db'; // Original blue
+                button.style.borderColor = '#2980b9';
+            });
+            console.log('Applied blue button styling to modal buttons (variant: control/other)');
+        }
+    } else {
+        console.error('Experiment not available');
+    }
 }
 
 function closePropertyModal() {
