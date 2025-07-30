@@ -13,14 +13,6 @@
         // Initialize Amplitude Analytics Browser SDK first and wait for it
         async function initializeAmplitudeExperiment() {
 
-            if (typeof amplitude !== 'undefined') {
-                // Initialize Amplitude Analytics Browser SDK
-                await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
-                
-                // Wait a bit for Analytics to fully initialize
-                await new Promise(resolve => setTimeout(resolve, 100));
-            }
-            
             // Initialize Amplitude Experiment after Analytics with proper integration
             window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
             
