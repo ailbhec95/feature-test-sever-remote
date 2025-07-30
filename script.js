@@ -305,8 +305,7 @@ function openPropertyModal(propertyId) {
     
     // Apply experiment styling AFTER modal content is created, targeting only modal buttons
     if (window.experiment) {
-        console.log('Applying experiment to modal buttons only');
-        console.log('Attempting to get variant for flag key: "test-feature-experiment"');
+
         const variant = window.experiment.variant('test-feature-experiment');
         console.log('Variant result:', variant);
         console.log('Variant value:', variant.value);
