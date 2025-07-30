@@ -7,21 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertySale - Find Your Dream Home</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Initialize Amplitude Analytics Browser UNIFIED SDK -->
-    <script src="https://cdn.amplitude.com/script/a3f7a8d1c910f8fabc60dd7e947438f1.js"></script>
-    <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
+    <!-- Use modern Analytics Browser SDK -->
+    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.16.1-min.js.gz"></script>
     <script type="module">
-
-            window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
-            
-            // Fetch variants on page load with detailed logging
-            try {
-                await window.experiment.fetch();
-                console.log('✅ Experiment variants fetched successfully');
-            } catch (error) {
-                console.error('❌ Failed to fetch experiment variants:', error);
-            }
-
+        // Use global objects, not imports (since loaded via CDN)
+        await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
+        window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
+        
+        try {
+            await window.experiment.fetch();
+            console.log('✅ Experiment variants fetched successfully');
+        } catch (error) {
+            console.error('❌ Failed to fetch experiment variants:', error);
+        }
     </script>
 </head>
 
