@@ -144,71 +144,7 @@ function getUserInfo() {
 
 // Custom Amplitude Event Function
 function ClickFeatureProperty(propertyId) {
-    const property = propertyData[propertyId];
-    
-    // Comprehensive debugging for experiment
-    console.log('=== EXPERIMENT DEBUG START ===');
-    console.log('window.experiment:', window.experiment);
-    console.log('experiment.isRunning:', window.experiment ? window.experiment.isRunning : 'N/A');
-    
-    // Check automatic exposure tracking configuration
-    if (window.experiment && window.experiment.config) {
-        console.log('automaticExposureTracking:', window.experiment.config.automaticExposureTracking);
-        console.log('exposureTrackingProvider:', window.experiment.config.exposureTrackingProvider);
-    }
-    
-    // Check Amplitude Analytics user ID
-    if (typeof amplitude !== 'undefined') {
-        console.log('Amplitude Analytics getUserId():', amplitude.getUserId());
-        console.log('Amplitude Analytics getDeviceId():', amplitude.getDeviceId());
-    } else {
-        console.log('Amplitude Analytics not available');
-    }
-    
-    // Check experiment user provider
-    if (window.experiment && window.experiment.userProvider) {
-        try {
-            const user = window.experiment.userProvider.getUser();
-            console.log('Experiment user from provider:', user);
-        } catch (e) {
-            console.log('Error getting user from provider:', e);
-        }
-    }
-    
-    // Check cached variants
-    if (window.experiment) {
-        console.log('All cached variants:', window.experiment.all());
-        console.log('Variants cache object:', window.experiment.variants);
-        
-        // Try to get the variant
-        console.log('Attempting to get variant for flag key: "test-feature-experiment"');
-        const variant = window.experiment.variant('test-feature-experiment');
-        console.log('Variant result:', variant);
-        console.log('Variant value:', variant.value);
-        console.log('Variant payload:', variant.payload);
-        
-        // Apply styling based on variant
-        if (variant.value === 'variant') {
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.style.backgroundColor = '#e74c3c'; // Red color
-                button.style.borderColor = '#c0392b';
-            });
-            console.log('Applied red button styling (variant: variant)');
-        } else {
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.style.backgroundColor = '#3498db'; // Original blue
-                button.style.borderColor = '#2980b9';
-            });
-            console.log('Applied blue button styling (variant: control/other)');
-        }
-    } else {
-        console.error('Experiment not available');
-    }
-    
-    console.log('=== EXPERIMENT DEBUG END ===');
-    
+    const property = propertyData[propertyId];  
     // Send custom event to Amplitude using Browser SDK 2
     if (typeof amplitude !== 'undefined') {
         
@@ -336,6 +272,37 @@ function clearFilters() {
 
 // Modal functions
 function openPropertyModal(propertyId) {
+
+    if (window.experiment) {
+        console.log('All cached variants:', window.experiment.all());
+        console.log('Variants cache object:', window.experiment.variants);
+        
+        // Try to get the variant
+        console.log('Attempting to get variant for flag key: "test-feature-experiment"');
+        const variant = window.experiment.variant('test-feature-experiment');
+        console.log('Variant result:', variant);
+        console.log('Variant value:', variant.value);
+        console.log('Variant payload:', variant.payload);
+        
+        // Apply styling based on variant
+        if (variant.value === 'variant') {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.style.backgroundColor = '#e74c3c'; // Red color
+                button.style.borderColor = '#c0392b';
+            });
+            console.log('Applied red button styling (variant: variant)');
+        } else {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.style.backgroundColor = '#3498db'; // Original blue
+                button.style.borderColor = '#2980b9';
+            });
+            console.log('Applied blue button styling (variant: control/other)');
+        }
+    } else {
+        console.error('Experiment not available');
+    }
     const property = propertyData[propertyId];
     const modal = document.getElementById('propertyModal');
     const modalContent = document.getElementById('modalContent');
