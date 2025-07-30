@@ -10,7 +10,7 @@
     <!-- Initialize Amplitude Analytics Browser UNIFIED SDK -->
     <script src="https://cdn.amplitude.com/script/a3f7a8d1c910f8fabc60dd7e947438f1.js"></script>
     <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
-    <script>
+    <script type="module">
 
             window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
             
@@ -21,7 +21,7 @@
             } catch (error) {
                 console.error('❌ Failed to fetch experiment variants:', error);
             }
-            
+
     </script>
 </head>
 
