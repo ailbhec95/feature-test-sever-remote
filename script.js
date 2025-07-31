@@ -325,14 +325,14 @@ function openPropertyModal(propertyId) {
         });
         
         // Now check the actual variant logic
-        if (variant.value === 'variant') {
+        if (variant.value === 'varient') {
             console.log('✅ VARIANT: Should be RED buttons');
             modalButtons.forEach((button, index) => {
                 button.style.backgroundColor = '#e74c3c'; // Red color
                 button.style.borderColor = '#c0392b';
                 console.log(`Button ${index + 1}: Applied RED variant styling`);
             });
-            console.log('Applied red button styling to modal buttons (variant: variant)');
+            console.log('Applied red button styling to modal buttons (variant: varient)');
         } else {
             console.log('✅ CONTROL: Should be BLUE buttons (current variant value:', variant.value, ')');
             modalButtons.forEach((button, index) => {
