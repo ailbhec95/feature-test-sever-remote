@@ -307,25 +307,43 @@ function openPropertyModal(propertyId) {
     // With fetchOnStart: true, variants are automatically fetched and ready to use
     if (window.experiment) {
         const variant = window.experiment.variant('test-client-side-local', { value: 'control' });
-        console.log('Experiment variant (fetchOnStart):', variant.value);
+        console.log('🔍 DEBUG: Experiment variant (fetchOnStart):', variant.value);
+        console.log('🔍 DEBUG: Full variant object:', variant);
         
-        // Target only buttons within the modal
-        const modalButtons = modal.querySelectorAll('.btn');
+        // Target BOTH button types in the modal
+        const modalButtons = modal.querySelectorAll('.btn, .btn-secondary');
+        console.log('🔍 DEBUG: Found buttons in modal:', modalButtons.length);
+        console.log('🔍 DEBUG: Button elements:', modalButtons);
+        
+        // Force red for testing
+        console.log('🔍 DEBUG: Testing FORCED RED styling on all buttons...');
+        modalButtons.forEach((button, index) => {
+            console.log(`🔍 DEBUG: Styling button ${index + 1}:`, button);
+            button.style.backgroundColor = '#e74c3c';
+            button.style.borderColor = '#c0392b';
+            console.log(`🔍 DEBUG: Applied styles to button ${index + 1} - background: ${button.style.backgroundColor}`);
+        });
+        
+        // Now check the actual variant logic
         if (variant.value === 'variant') {
-            modalButtons.forEach(button => {
+            console.log('✅ VARIANT: Should be RED buttons');
+            modalButtons.forEach((button, index) => {
                 button.style.backgroundColor = '#e74c3c'; // Red color
                 button.style.borderColor = '#c0392b';
+                console.log(`Button ${index + 1}: Applied RED variant styling`);
             });
             console.log('Applied red button styling to modal buttons (variant: variant)');
         } else {
-            modalButtons.forEach(button => {
+            console.log('✅ CONTROL: Should be BLUE buttons (current variant value:', variant.value, ')');
+            modalButtons.forEach((button, index) => {
                 button.style.backgroundColor = '#3498db'; // Original blue
                 button.style.borderColor = '#2980b9';
+                console.log(`Button ${index + 1}: Applied BLUE control styling`);
             });
             console.log('Applied blue button styling to modal buttons (variant: control/other)');
         }
     } else {
-        console.error('Experiment not available');
+        console.error('❌ Experiment not available');
     }
 }
 
