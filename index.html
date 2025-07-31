@@ -15,7 +15,7 @@
         
         // No client-side experiment SDK needed - using server-side remote API
         window.experimentAPI = {
-            baseUrl: window.location.origin + '/api',
+            baseUrl: 'http://localhost:3000/api',
             
             // Fetch variants from our Node.js backend
             async fetchVariants(user) {
