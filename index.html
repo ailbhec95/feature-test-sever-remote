@@ -14,11 +14,11 @@
         // Initialize Amplitude Analytics
         await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
         
-        // Initialize server-side remote experiment (no auto-fetch)
-        window.experiment = Experiment.initialize('server-J2Hw5SNQsPvvJFgOqjeQfecowTIoxD3X', {
+        // Initialize server-side remote experiment with Amplitude integration (automatic exposure tracking)
+        window.experiment = Experiment.initializeWithAmplitudeAnalytics('server-J2Hw5SNQsPvvJFgOqjeQfecowTIoxD3X', {
             fetchOnStart: false  // Server-side remote: fetch on-demand, not on startup
         });
-        console.log('✅ Server-side remote experiment initialized (fetch on-demand)');
+        console.log('✅ Server-side remote experiment initialized with automatic exposure tracking');
     </script>
 </head>
 

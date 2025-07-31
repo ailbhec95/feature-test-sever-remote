@@ -326,15 +326,7 @@ async function openPropertyModal(propertyId) {
                     console.log(`Button ${index + 1}: Applied RED treatment styling`);
                 });
                 
-                // Track experiment exposure for treatment
-                if (typeof amplitude !== 'undefined') {
-                    amplitude.track('Experiment Exposure', {
-                        experiment_name: 'test-sever-side-remote',
-                        variant: 'treatment',
-                        experiment_type: 'server_side_remote'
-                    });
-                    console.log('📊 Tracked experiment exposure for treatment variant');
-                }
+                // Exposure tracking is now automatic when using initializeWithAmplitudeAnalytics
             } else {
                 console.log('✅ CONTROL VARIANT: Applying default blue button styling');
                 modalButtons.forEach((button, index) => {
@@ -343,15 +335,7 @@ async function openPropertyModal(propertyId) {
                     console.log(`Button ${index + 1}: Applied BLUE control styling`);
                 });
                 
-                // Track experiment exposure for control
-                if (typeof amplitude !== 'undefined') {
-                    amplitude.track('Experiment Exposure', {
-                        experiment_name: 'test-sever-side-remote',
-                        variant: 'control',
-                        experiment_type: 'server_side_remote'
-                    });
-                    console.log('📊 Tracked experiment exposure for control variant');
-                }
+                // Exposure tracking is now automatic when using initializeWithAmplitudeAnalytics
             }
         } catch (error) {
             console.error('❌ Failed to fetch server-side remote variants:', error);
