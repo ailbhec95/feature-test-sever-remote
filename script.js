@@ -306,7 +306,7 @@ function openPropertyModal(propertyId) {
     // Apply experiment styling AFTER modal content is created
     // With fetchOnStart: true, variants are automatically fetched and ready to use
     if (window.experiment) {
-        const variant = window.experiment.variant('test-feature-experiment', { value: 'control' });
+        const variant = window.experiment.variant('test-client-side-local', { value: 'control' });
         console.log('Experiment variant (fetchOnStart):', variant.value);
         
         // Target only buttons within the modal
