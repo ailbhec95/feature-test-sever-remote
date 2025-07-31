@@ -303,23 +303,21 @@ function openPropertyModal(propertyId) {
     
     modal.style.display = 'block';
     
-    // Apply experiment styling AFTER modal content is created, targeting only modal buttons
+    // Apply experiment styling AFTER modal content is created
+    // With fetchOnStart: true, variants are automatically fetched and ready to use
     if (window.experiment) {
-
-        const variant = window.experiment.variant('test-feature-experiment');
-        console.log('Variant result:', variant);
-        console.log('Variant value:', variant.value);
+        const variant = window.experiment.variant('test-feature-experiment', { value: 'control' });
+        console.log('Experiment variant (fetchOnStart):', variant.value);
         
         // Target only buttons within the modal
+        const modalButtons = modal.querySelectorAll('.btn');
         if (variant.value === 'variant') {
-            const modalButtons = modal.querySelectorAll('.btn');
             modalButtons.forEach(button => {
                 button.style.backgroundColor = '#e74c3c'; // Red color
                 button.style.borderColor = '#c0392b';
             });
             console.log('Applied red button styling to modal buttons (variant: variant)');
         } else {
-            const modalButtons = modal.querySelectorAll('.btn');
             modalButtons.forEach(button => {
                 button.style.backgroundColor = '#3498db'; // Original blue
                 button.style.borderColor = '#2980b9';

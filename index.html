@@ -13,13 +13,22 @@
     <script type="module">
         // Use global objects, not imports (since loaded via CDN)
         await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
-        window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0');
+        
+        // Initialize experiment client with fetchOnStart configuration
+        window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0', {
+            fetchOnStart: true,        // Automatically fetch variants when start() is called
+            automaticExposureTracking: true,
+            debug: true,               // Enable debug logging to see fetchOnStart in action
+            retryFetchOnFailure: true  // Retry if fetch fails
+        });
         
         try {
-            await window.experiment.fetch();
-            console.log('✅ Experiment variants fetched successfully');
+            // Use start() instead of fetch() when using fetchOnStart
+            // start() will automatically call fetch() due to fetchOnStart: true
+            await window.experiment.start();
+            console.log('✅ Experiment started with fetchOnStart - variants fetched automatically');
         } catch (error) {
-            console.error('❌ Failed to fetch experiment variants:', error);
+            console.error('❌ Failed to start experiment with fetchOnStart:', error);
         }
     </script>
 </head>
