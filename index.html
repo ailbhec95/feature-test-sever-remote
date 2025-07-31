@@ -11,25 +11,12 @@
     <script src="https://cdn.amplitude.com/libs/analytics-browser-2.16.1-min.js.gz"></script>
     <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
     <script type="module">
-        // Use global objects, not imports (since loaded via CDN)
+        // Initialize Amplitude Analytics
         await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
         
-        // Initialize experiment client with fetchOnStart configuration
-        window.experiment = Experiment.initializeWithAmplitudeAnalytics('client-SkPUfItSZ3wRxYVJjJeE4do0wKbnF4q0', {
-            fetchOnStart: true,        // Automatically fetch variants when start() is called
-            automaticExposureTracking: true,
-            debug: true,               // Enable debug logging to see fetchOnStart in action
-            retryFetchOnFailure: true  // Retry if fetch fails
-        });
-        
-        try {
-            // Use start() instead of fetch() when using fetchOnStart
-            // start() will automatically call fetch() due to fetchOnStart: true
-            await window.experiment.start();
-            console.log('✅ Experiment started with fetchOnStart - variants fetched automatically');
-        } catch (error) {
-            console.error('❌ Failed to start experiment with fetchOnStart:', error);
-        }
+        // Initialize server-side remote experiment (no auto-fetch)
+        window.experiment = Experiment.initializeRemote('server-J2Hw5SNQsPvvJFgOqjeQfecowTIoxD3X');
+        console.log('✅ Server-side remote experiment initialized (fetch on-demand)');
     </script>
 </head>
 
