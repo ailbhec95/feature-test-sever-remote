@@ -303,15 +303,26 @@ async function openPropertyModal(propertyId) {
     
     modal.style.display = 'block';
     
-    // Apply server-side remote experiment styling
-    if (window.experiment) {
+    // Apply server-side remote experiment styling via backend API
+    if (window.experimentAPI) {
         try {
-            // Fetch variants on-demand for server-side remote experiment
-            await window.experiment.fetch();
-            console.log('✅ Server-side remote variants fetched on-demand');
+            // Get current user info for experiment
+            const currentUser = getCurrentUser();
+            const user = {
+                user_id: currentUser?.userId || null,
+                device_id: currentUser?.sessionId || 'anonymous_' + Date.now(),
+                user_properties: {
+                    propertyViewed: propertyId,
+                    userName: currentUser?.name || null
+                }
+            };
             
-            const variant = window.experiment.variant('test-sever-side-remote', { value: 'control' });
+            // Fetch variants from server-side remote API
+            const variants = await window.experimentAPI.fetchVariants(user);
+            const variant = variants['test-sever-side-remote'] || { value: 'control' };
+            
             console.log('🔍 SERVER-SIDE REMOTE: Experiment variant:', variant.value);
+            console.log('🔍 SERVER-SIDE REMOTE: User context:', user);
             
             // Target buttons in the modal
             const modalButtons = modal.querySelectorAll('.btn, .btn-secondary');
@@ -325,8 +336,6 @@ async function openPropertyModal(propertyId) {
                     button.style.borderColor = '#c0392b';
                     console.log(`Button ${index + 1}: Applied RED treatment styling`);
                 });
-                
-                // Exposure tracking is now automatic when using initializeWithAmplitudeAnalytics
             } else {
                 console.log('✅ CONTROL VARIANT: Applying default blue button styling');
                 modalButtons.forEach((button, index) => {
@@ -334,9 +343,11 @@ async function openPropertyModal(propertyId) {
                     button.style.borderColor = '#2980b9';
                     console.log(`Button ${index + 1}: Applied BLUE control styling`);
                 });
-                
-                // Exposure tracking is now automatic when using initializeWithAmplitudeAnalytics
             }
+            
+            // Note: Exposure tracking is handled automatically by the server
+            console.log('📊 Exposure tracking handled by server-side remote API');
+            
         } catch (error) {
             console.error('❌ Failed to fetch server-side remote variants:', error);
             // Fallback to control styling
@@ -347,7 +358,7 @@ async function openPropertyModal(propertyId) {
             });
         }
     } else {
-        console.error('❌ Server-side remote experiment not available');
+        console.error('❌ Server-side remote experiment API not available');
     }
 }
 

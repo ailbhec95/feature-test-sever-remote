@@ -7,18 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertySale - Find Your Dream Home</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Use modern Analytics Browser SDK -->
+    <!-- Use modern Analytics Browser SDK for frontend tracking -->
     <script src="https://cdn.amplitude.com/libs/analytics-browser-2.16.1-min.js.gz"></script>
-    <script src="https://unpkg.com/@amplitude/experiment-js-client@1.15.5/dist/experiment.umd.js"></script>
     <script type="module">
-        // Initialize Amplitude Analytics
+        // Initialize Amplitude Analytics for frontend events only
         await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
         
-        // Initialize server-side remote experiment with Amplitude integration (automatic exposure tracking)
-        window.experiment = Experiment.initializeWithAmplitudeAnalytics('server-J2Hw5SNQsPvvJFgOqjeQfecowTIoxD3X', {
-            fetchOnStart: false  // Server-side remote: fetch on-demand, not on startup
-        });
-        console.log('✅ Server-side remote experiment initialized with automatic exposure tracking');
+        // No client-side experiment SDK needed - using server-side remote API
+        window.experimentAPI = {
+            baseUrl: window.location.origin + '/api',
+            
+            // Fetch variants from our Node.js backend
+            async fetchVariants(user) {
+                const params = new URLSearchParams({
+                    user_id: user.user_id || '',
+                    device_id: user.device_id || '',
+                    user_properties: JSON.stringify(user.user_properties || {})
+                });
+                
+                try {
+                    const response = await fetch(`${this.baseUrl}/experiment?${params}`);
+                    const data = await response.json();
+                    console.log('✅ Server-side remote variants received:', data);
+                    return data.variants || {};
+                } catch (error) {
+                    console.error('❌ Failed to fetch server-side variants:', error);
+                    return { 'test-sever-side-remote': { value: 'control' } };
+                }
+            }
+        };
+        
+        console.log('✅ Server-side remote experiment API initialized');
     </script>
 </head>
 
