@@ -15,7 +15,9 @@
         await amplitude.init('a3f7a8d1c910f8fabc60dd7e947438f1');
         
         // Initialize server-side remote experiment (no auto-fetch)
-        window.experiment = Experiment.initializeRemote('server-J2Hw5SNQsPvvJFgOqjeQfecowTIoxD3X');
+        window.experiment = Experiment.initialize('server-J2Hw5SNQsPvvJFgOqjeQfecowTIoxD3X', {
+            fetchOnStart: false  // Server-side remote: fetch on-demand, not on startup
+        });
         console.log('✅ Server-side remote experiment initialized (fetch on-demand)');
     </script>
 </head>
